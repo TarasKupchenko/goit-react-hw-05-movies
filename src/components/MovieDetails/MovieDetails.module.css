@@ -1,0 +1,20 @@
+.movie_details {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  padding-top: 40px;
+}
+
+.movie_details img {
+  width: 200px;
+}
+
+.goBack {
+  padding: 10px;
+  border: 1px solid rgb(164, 163, 163);
+  border-radius: 5px;
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  margin-left: 10px;
+}
