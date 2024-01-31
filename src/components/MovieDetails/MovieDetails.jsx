@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, lazy, Suspense } from 'react';
 import {
   useParams,
   NavLink,
@@ -8,9 +8,10 @@ import {
   useLocation,
 } from 'react-router-dom';
 import css from './MovieDetails.module.css';
-import Cast from '../Cast/Cast';
-import Reviews from 'components/Reviews/Reviews ';
 import { fetchMovieDetails } from '../services/Api';
+const Reviews = lazy(() => import('../Reviews/Reviews '));
+const Cast = lazy(() => import('../Cast/Cast'));
+const Loader = lazy(() => import('../Loader/Loader'));
 
 const MovieDetails = () => {
   const { movieId } = useParams();
@@ -28,7 +29,7 @@ const MovieDetails = () => {
   }, [movieId]);
 
   if (!movieDetails) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
   const imageUrl = `https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`;
   const userScore = Math.round(movieDetails.vote_average * 10);
@@ -58,10 +59,12 @@ const MovieDetails = () => {
         </li>
       </ul>
       <div>
-        <Routes>
-          <Route path="cast" element={<Cast />} />
-          <Route path="reviews" element={<Reviews />} />
-        </Routes>
+        <Suspense fallback={<Loader />}>
+          <Routes>
+            <Route path="cast" element={<Cast />} />
+            <Route path="reviews" element={<Reviews />} />
+          </Routes>
+        </Suspense>
       </div>
     </div>
   );

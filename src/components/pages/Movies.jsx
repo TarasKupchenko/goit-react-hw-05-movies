@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation, useSearchParams } from 'react-router-dom';
 import { fetchMoviesApi } from '../services/Api';
+import Loader from 'components/Loader/Loader';
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
@@ -57,6 +58,7 @@ const Movies = () => {
         />
         <button type="submit">Search</button>
       </form>
+      {isLoading && <Loader />}
       {searched && movies.length > 0 ? (
         <ul>
           {movies.map(movie => (
