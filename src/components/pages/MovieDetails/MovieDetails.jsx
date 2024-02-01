@@ -8,10 +8,10 @@ import {
   useLocation,
 } from 'react-router-dom';
 import css from './MovieDetails.module.css';
-import { fetchMovieDetails } from '../services/Api';
-const Reviews = lazy(() => import('../Reviews/Reviews '));
-const Cast = lazy(() => import('../Cast/Cast'));
-const Loader = lazy(() => import('../Loader/Loader'));
+import { fetchMovieDetails } from '../../services/Api';
+const Reviews = lazy(() => import('../../Reviews/Reviews '));
+const Cast = lazy(() => import('../../Cast/Cast'));
+const Loader = lazy(() => import('../../Loader/Loader'));
 
 const MovieDetails = () => {
   const { movieId } = useParams();

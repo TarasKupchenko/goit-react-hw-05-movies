@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchTrendingMovies } from '../services/Api';
+import { fetchTrendingMovies } from '../../services/Api';
 
 const Home = () => {
   const [trendingMovies, setTrendingMovies] = useState([]);
