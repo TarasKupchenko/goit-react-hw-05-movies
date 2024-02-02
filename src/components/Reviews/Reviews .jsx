@@ -1,33 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { fetchReviews } from 'components/services/Api';
+import Loader from 'components/Loader/Loader';
 
 const Reviews = () => {
   const { movieId } = useParams();
   const [reviews, setReviews] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchReviews = async () => {
+    const fetchReviewsData = async () => {
       try {
-        const response = await fetch(
-          `https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=27cf9ca08224d5da159ec688a33b0bea`
-        );
-        const data = await response.json();
-        setReviews(data.results);
+        const reviewsData = await fetchReviews(movieId);
+        setReviews(reviewsData);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching reviews:', error);
       }
     };
 
-    fetchReviews();
+    fetchReviewsData();
   }, [movieId]);
 
   return (
     <div>
-      {loading ? (
-        <p>Loading reviews...</p>
-      ) : reviews && reviews.length > 0 ? (
+      {isLoading && <Loader />}
+      {reviews && reviews.length > 0 ? (
         <ul>
           {reviews.map(review => (
             <li key={review.id}>

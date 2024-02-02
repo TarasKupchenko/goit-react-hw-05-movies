@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, lazy, Suspense } from 'react';
+import React, { useEffect, useState, useRef, lazy } from 'react';
 import {
   useParams,
   NavLink,
@@ -59,12 +59,10 @@ const MovieDetails = () => {
         </li>
       </ul>
       <div>
-        <Suspense fallback={<Loader />}>
-          <Routes>
-            <Route path="cast" element={<Cast />} />
-            <Route path="reviews" element={<Reviews />} />
-          </Routes>
-        </Suspense>
+        <Routes>
+          <Route path="cast" element={<Cast />} />
+          <Route path="reviews" element={<Reviews />} />
+        </Routes>
       </div>
     </div>
   );

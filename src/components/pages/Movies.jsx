@@ -1,12 +1,12 @@
+// components/Movies.js
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation, useSearchParams } from 'react-router-dom';
 import { fetchMoviesApi } from '../services/Api';
 import Loader from 'components/Loader/Loader';
+import MovieSearchForm from '../MovieSearchForm/MovieSearchForm';
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
-  const [searchKeyword, setSearchKeyword] = useState('');
-  const [searchClicked, setSearchClicked] = useState(false);
   const [searched, setSearched] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
@@ -19,7 +19,7 @@ const Movies = () => {
 
       try {
         setIsLoading(true);
-        const data = await fetchMoviesApi(searchKeyword);
+        const data = await fetchMoviesApi(query);
         setMovies(data);
         setSearched(true);
       } catch (error) {
@@ -29,37 +29,19 @@ const Movies = () => {
       }
     };
 
-    if (searchClicked && searchKeyword) {
-      fetchMovies();
-      setSearchClicked(false);
-    }
-  }, [searchKeyword, searchClicked, query]);
+    fetchMovies();
+  }, [query]);
 
-  const handleInputChange = event => {
-    setSearchKeyword(event.target.value);
-  };
-
-  const handleSearch = event => {
-    event.preventDefault();
-    const searchValue = event.target.searchInput.value;
-    setSearchParams({ movie: searchValue });
-    setSearchClicked(true);
+  const handleSearch = searchKeyword => {
+    setSearchParams({ movie: searchKeyword });
   };
 
   return (
     <div>
       <h2>Movies</h2>
-      <form onSubmit={handleSearch}>
-        <input
-          type="text"
-          placeholder="Search movies by title..."
-          name="searchInput"
-          onChange={handleInputChange}
-        />
-        <button type="submit">Search</button>
-      </form>
+      <MovieSearchForm onSearch={handleSearch} />
       {isLoading && <Loader />}
-      {searched && movies.length > 0 ? (
+      {movies.length > 0 ? (
         <ul>
           {movies.map(movie => (
             <li key={movie.id}>
