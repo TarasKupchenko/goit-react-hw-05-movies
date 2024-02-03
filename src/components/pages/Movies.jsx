@@ -1,9 +1,10 @@
 // components/Movies.js
 import React, { useState, useEffect } from 'react';
-import { NavLink, useLocation, useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { fetchMoviesApi } from '../services/Api';
 import Loader from 'components/Loader/Loader';
 import MovieSearchForm from '../MovieSearchForm/MovieSearchForm';
+import MovieList from 'components/MovieList/MovieList';
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
@@ -42,15 +43,7 @@ const Movies = () => {
       <MovieSearchForm onSearch={handleSearch} />
       {isLoading && <Loader />}
       {movies.length > 0 ? (
-        <ul>
-          {movies.map(movie => (
-            <li key={movie.id}>
-              <NavLink state={{ from: location }} to={`/movies/${movie.id}`}>
-                <h3>{movie.title}</h3>
-              </NavLink>
-            </li>
-          ))}
-        </ul>
+        <MovieList movies={movies} location={location} />
       ) : (
         searched && <p>No movies found for the given keyword.</p>
       )}

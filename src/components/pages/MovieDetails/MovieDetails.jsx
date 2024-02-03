@@ -9,6 +9,8 @@ import {
 } from 'react-router-dom';
 import css from './MovieDetails.module.css';
 import { fetchMovieDetails } from '../../services/Api';
+import none from '../../../img/none.png';
+
 const Reviews = lazy(() => import('../../Reviews/Reviews '));
 const Cast = lazy(() => import('../../Cast/Cast'));
 const Loader = lazy(() => import('../../Loader/Loader'));
@@ -31,7 +33,9 @@ const MovieDetails = () => {
   if (!movieDetails) {
     return <Loader />;
   }
-  const imageUrl = `https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`;
+  const imageUrl = movieDetails.poster_path
+    ? `https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`
+    : none;
   const userScore = Math.round(movieDetails.vote_average * 10);
 
   return (
